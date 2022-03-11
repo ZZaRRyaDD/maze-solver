@@ -6,16 +6,16 @@
 
 **For install you should install [poetry](https://python-poetry.org/) and install dependencies**
 
-```
-bash poetry install
+```bash
+poetry install
 ```
 
 **After that created virtual enviment**
 
 **Start programm with**
 
-```
-bash python __main__.py
+```bash
+python __main__.py
 ```
 
 
