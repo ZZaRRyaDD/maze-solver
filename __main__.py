@@ -3,7 +3,7 @@ import sys
 
 from PyQt5 import QtWidgets
 
-from main_window import MainWindow
+from windows.main_window import MainWindow
 
 if __name__ == "__main__":
     sys.setrecursionlimit(4000)

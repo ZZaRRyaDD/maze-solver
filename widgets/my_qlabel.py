@@ -11,18 +11,12 @@ class MyQLabel(QtWidgets.QLabel):
         super(MyQLabel, self).__init__(*args)
         self.main = main_widget
 
-    def mousePressEvent(self, event):
+    def mousePressEvent(self, event) -> None:
         """Обработка клика по картинке."""
         if self.pixmap():
             self.main.get_points(
                 (
-                    [
-                        event.pos().x(),
-                        event.pos().y(),
-                    ],
-                    [
-                        self.size().width(),
-                        self.size().height(),
-                    ],
+                    [event.pos().x(), event.pos().y()],
+                    [self.size().width(), self.size().height()],
                 )
             )

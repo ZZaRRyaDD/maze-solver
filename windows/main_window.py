@@ -7,8 +7,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from constants import Colors, Modes
 from forms import Ui_MazeGenerator
 from maze import Maze
-from save_window import SaveWindow
-from settings_window import SettingWindow
+
+from .save_window import SaveWindow
+from .settings_window import SettingWindow
 
 
 class MainWindow(QtWidgets.QMainWindow):
