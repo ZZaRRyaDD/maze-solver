@@ -35,11 +35,14 @@ jobs:
       - name: Checkout Code Repository
         uses: actions/checkout@v3
 
+      - name: Set up Python
+        uses: actions/setup-python@v3
+
       - name: Install packages
-         run: pip install poetry && poetry config virtualenvs.create false
+        run: pip install poetry && poetry config virtualenvs.create false
 
       - name: Install requirements
-         run: poetry install --extras dev --no-interaction --no-ansi
+        run: poetry install --extras dev --no-interaction --no-ansi
 
       - name: Run tests
-         run: pytest
+        run: pytest

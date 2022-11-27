@@ -4,7 +4,7 @@
 
 ### Установка
 
-**Для установки вам потребуется [poetry](https://python-poetry.org/) and install dependencies**
+**Для установки вам потребуется [poetry](https://python-poetry.org/) и установить зависимости**
 
 ```bash
 poetry install
