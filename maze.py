@@ -5,14 +5,11 @@ from typing import Optional
 
 from PIL import Image
 
-from constants import Colors
+from constants import Colors, Objects
 from stack import Stack
 
-WAY = "1"
-WALL = "0"
 
-
-class Maze:  # pylint: disable=too-many-instance-attributes
+class Maze:
     """Класс для генерации лабиринта."""
 
     def __init__(
@@ -96,9 +93,9 @@ class Maze:  # pylint: disable=too-many-instance-attributes
                     row = []
                     for index2 in range(height):
                         if pixels[index1, index2] == Colors.WHITE_COLOR:
-                            row.append(WAY)
+                            row.append(Objects.WAY)
                         elif pixels[index1, index2] == Colors.BLACK_COLOR:
-                            row.append(WALL)
+                            row.append(Objects.WALL)
                         else:
                             raise ValueError(
                                 "Вероятно вы загрузили уже решенный лабиринт",
@@ -110,9 +107,9 @@ class Maze:  # pylint: disable=too-many-instance-attributes
                 string = ptr.read()
                 row = []
                 for _, char in enumerate(string):
-                    if char == WAY:
+                    if char == Objects.WAY:
                         row.append(char)
-                    elif char == WALL:
+                    elif char == Objects.WALL:
                         row.append(char)
                     elif char == "\n":
                         self.__list_maze.append(row)
@@ -125,9 +122,9 @@ class Maze:  # pylint: disable=too-many-instance-attributes
         """Генерация начальной точки лабиринта."""
         point1 = self.__list_maze[1][1]
         point2 = self.__list_maze[1][2]
-        if point1 != WALL:
+        if point1 != Objects.WALL:
             self.__start_point = [1, 1]
-        elif point2 != WALL:
+        elif point2 != Objects.WALL:
             self.__start_point = [1, 2]
         else:
             self.__start_point = [2, 1]
@@ -138,14 +135,14 @@ class Maze:  # pylint: disable=too-many-instance-attributes
         width = len(self.__list_maze[0])
         point1 = self.__list_maze[height - 2][width - 2]
         point2 = self.__list_maze[height - 3][width - 2]
-        if point1 != WALL:
+        if point1 != Objects.WALL:
             self.__end_point = [height - 2, width - 2]
-        elif point2 != WALL:
+        elif point2 != Objects.WALL:
             self.__end_point = [height - 3, width - 2]
         else:
             self.__end_point = [height - 2, width - 3]
 
-    def init_base_data(  # pylint: disable=no-self-use
+    def init_base_data(
         self,
         output_height: int,
         output_width: int,
@@ -156,7 +153,7 @@ class Maze:  # pylint: disable=too-many-instance-attributes
             row = []
             for j in range(output_width):
                 if i % 2 == 1 and j % 2 == 1:
-                    row.append(WAY)
+                    row.append(Objects.WAY)
                 else:
                     first_cond = all(
                         [
@@ -175,12 +172,14 @@ class Maze:  # pylint: disable=too-many-instance-attributes
                         ],
                     )
                     row.append(
-                        WAY if any([first_cond, second_cond]) else WALL
+                        Objects.WAY
+                        if any([first_cond, second_cond])
+                        else Objects.WALL
                     )
             list_maze.append(row)
         return list_maze
 
-    def assign_set(  # pylint: disable=no-self-use
+    def assign_set(
         self,
         width: int,
         counter: int,
@@ -193,7 +192,7 @@ class Maze:  # pylint: disable=too-many-instance-attributes
                 row_set[j] = counter
         return counter
 
-    def build_right_walls(  # pylint: disable=no-self-use
+    def build_right_walls(
         self,
         width: int,
         i: int,
@@ -203,7 +202,7 @@ class Maze:  # pylint: disable=too-many-instance-attributes
         """Добавляем стены."""
         for j in range(width - 1):
             if random.randint(0, 1) or row_set[j] == row_set[j + 1]:
-                list_maze[i * 2 + 1][j * 2 + 2] = WALL
+                list_maze[i * 2 + 1][j * 2 + 2] = Objects.WALL
             else:
                 changing_set = row_set[j + 1]
                 for index in range(width):
@@ -211,7 +210,7 @@ class Maze:  # pylint: disable=too-many-instance-attributes
                         row_set[index] = row_set[j]
         return list_maze
 
-    def build_bottom_walls(  # pylint: disable=no-self-use
+    def build_bottom_walls(
         self,
         width: int,
         i: int,
@@ -225,10 +224,10 @@ class Maze:  # pylint: disable=too-many-instance-attributes
                 if row_set[j] == row_set[index]:
                     count_current_set += 1
             if random.randint(0, 1) and count_current_set != 1:
-                list_maze[i * 2 + 2][j * 2 + 1] = WALL
+                list_maze[i * 2 + 2][j * 2 + 1] = Objects.WALL
         return list_maze
 
-    def check_walls(  # pylint: disable=no-self-use
+    def check_walls(
         self,
         height: int,
         width: int,
@@ -243,14 +242,14 @@ class Maze:  # pylint: disable=too-many-instance-attributes
                 for index in range(width):
                     if (
                         row_set[index] == row_set[j] and
-                        list_maze[i * 2 + 2][index * 2 + 1] == WAY
+                        list_maze[i * 2 + 2][index * 2 + 1] == Objects.WAY
                     ):
                         count_hole += 1
                 if not count_hole:
-                    list_maze[i * 2 + 2][j * 2 + 1] = WAY
+                    list_maze[i * 2 + 2][j * 2 + 1] = Objects.WAY
         if i != height - 1:
             for j in range(width):
-                if list_maze[i * 2 + 2][j * 2 + 1] == WALL:
+                if list_maze[i * 2 + 2][j * 2 + 1] == Objects.WALL:
                     row_set[j] = 0
         return list_maze
 
@@ -270,7 +269,7 @@ class Maze:  # pylint: disable=too-many-instance-attributes
 
         for j in range(width - 1):
             if row_set[j] != row_set[j + 1]:
-                list_maze[output_height - 2][j * 2 + 2] = WAY
+                list_maze[output_height - 2][j * 2 + 2] = Objects.WAY
 
         self.__list_maze = list_maze
 
@@ -283,7 +282,7 @@ class Maze:  # pylint: disable=too-many-instance-attributes
                 pixels = image.load()
                 for index1, _ in enumerate(self.__list_maze):
                     for index2, _ in enumerate(self.__list_maze[index1]):
-                        if self.__list_maze[index1][index2] == WAY:
+                        if self.__list_maze[index1][index2] == Objects.WAY:
                             pixels[index1, index2] = Colors.WHITE_COLOR
                         else:
                             pixels[index1, index2] = Colors.BLACK_COLOR
@@ -297,7 +296,7 @@ class Maze:  # pylint: disable=too-many-instance-attributes
                     if index1 != len(self.__list_maze) - 1:
                         ptr.write("\n")
 
-    def print_maze(self, list_maze) -> None:  # pylint: disable=no-self-use
+    def print_maze(self, list_maze) -> None:
         """Печать лабиринта."""
         for row in list_maze:
             print(*row)
@@ -312,28 +311,28 @@ class Maze:  # pylint: disable=too-many-instance-attributes
         if point != self.__start_point:
             self.__way_points.push(point)
         if (
-            self.__list_maze[point[0] + 1][point[1]] != WALL
+            self.__list_maze[point[0] + 1][point[1]] != Objects.WALL
             and [point[0] + 1, point[1]] not in self.__way_points
             and [point[0] + 1, point[1]] not in self.__use_points
         ):
             ways.append([point[0] + 1, point[1]])
 
         if (
-            self.__list_maze[point[0]][point[1] + 1] != WALL
+            self.__list_maze[point[0]][point[1] + 1] != Objects.WALL
             and [point[0], point[1] + 1] not in self.__way_points
             and [point[0], point[1] + 1] not in self.__use_points
         ):
             ways.append([point[0], point[1] + 1])
 
         if (
-            self.__list_maze[point[0] - 1][point[1]] != WALL
+            self.__list_maze[point[0] - 1][point[1]] != Objects.WALL
             and [point[0] - 1, point[1]] not in self.__way_points
             and [point[0] - 1, point[1]] not in self.__use_points
         ):
             ways.append([point[0] - 1, point[1]])
 
         if (
-            self.__list_maze[point[0]][point[1] - 1] != WALL
+            self.__list_maze[point[0]][point[1] - 1] != Objects.WALL
             and [point[0], point[1] - 1] not in self.__way_points
             and [point[0], point[1] - 1] not in self.__use_points
         ):
@@ -367,7 +366,7 @@ class Maze:  # pylint: disable=too-many-instance-attributes
             pixels = image.load()
             for index1, _ in enumerate(self.__list_maze):
                 for index2, _ in enumerate(self.__list_maze[index1]):
-                    if self.__list_maze[index1][index2] == WAY:
+                    if self.__list_maze[index1][index2] == Objects.WAY:
                         if [index1, index2] in self.__use_points:
                             pixels[index1, index2] = Colors.BLUE_COLOR
                         elif [index1, index2] in self.__way_points:

@@ -1,7 +1,7 @@
 """Модуль с диалоговым окном для ввода данных лабиринта."""
 from PyQt5 import QtCore, QtWidgets
 
-from forms.maze_settings_window import Ui_Dialog  # pylint: disable=import-error
+from forms import Ui_DialogSetting
 
 
 class SettingWindow(QtWidgets.QDialog):
@@ -11,7 +11,7 @@ class SettingWindow(QtWidgets.QDialog):
 
     def __init__(self):
         super().__init__()
-        self.ui = Ui_Dialog()
+        self.ui = Ui_DialogSetting()
         self.ui.setupUi(self)
         self.setFixedSize(240, 225)
 

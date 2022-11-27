@@ -58,7 +58,7 @@ from maze import Maze
             [5, 4],
             [5, 5],
         ],
-    ],  # pylint: disable=too-many-arguments
+    ],
     [
         1,
         1,
@@ -76,7 +76,7 @@ from maze import Maze
         ],
         [
             [1, 1],
-        ],  # pylint: disable=too-many-arguments
+        ],
     ],
 ])
 def test_maze(

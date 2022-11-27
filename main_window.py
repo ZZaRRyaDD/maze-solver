@@ -5,7 +5,7 @@ from PIL import Image
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 from constants import Colors, Modes
-from forms.maze_generator_window import Ui_MazeGenerator
+from forms import Ui_MazeGenerator
 from maze import Maze
 from save_window import SaveWindow
 from settings_window import SettingWindow
@@ -58,7 +58,7 @@ class MainWindow(QtWidgets.QMainWindow):
                     self.ui.img.size().width(),
                     self.ui.img.size().height(),
                     QtCore.Qt.KeepAspectRatio,
-                )
+                ),
             )
             self.ui.img.setScaledContents(True)
         except ValueError:
@@ -134,13 +134,12 @@ class MainWindow(QtWidgets.QMainWindow):
             if self.__mode == Modes.MODE_CHOICE:
                 pixels = image.load()
                 if self.__clicked_x <= width and self.__clicked_y <= height:
-                    # if self.__clicked_y <= height:
                     point = pixels[self.__clicked_x, self.__clicked_y]
                     if point == Colors.BLACK_COLOR:
                         QtWidgets.QMessageBox.warning(
                             self,
                             "Внимание!",
-                            "Выбранная точка является стеной."
+                            "Выбранная точка является стеной.",
                         )
                     elif point == Colors.WHITE_COLOR:
                         if not self.__maze.start_point:
@@ -162,13 +161,13 @@ class MainWindow(QtWidgets.QMainWindow):
                                     f" и {self.__maze.end_point}. "
                                     "Для начала решения лабиринта "
                                     "нажмите сооветствующую кнопку."
-                                )
+                                ),
                             )
                 else:
                     QtWidgets.QMessageBox.warning(
                         self,
                         "Внимание!",
-                        "Точка по координате y не верна."
+                        "Точка по координате y не верна.",
                     )
 
     @QtCore.pyqtSlot()
@@ -188,20 +187,20 @@ class MainWindow(QtWidgets.QMainWindow):
                             "Кликните по двум точкам, "
                             "чтобы задать старт и конец "
                             "лабаринта соответственно"
-                         )
+                        ),
                     )
                     self.__mode = Modes.MODE_CHOICE
             else:
                 QtWidgets.QMessageBox.warning(
                     self,
                     "Внимание!",
-                    "Загрузите нерешенный лабиринт или сгенерируйте новый."
+                    "Загрузите нерешенный лабиринт или сгенерируйте новый.",
                 )
         else:
             QtWidgets.QMessageBox.warning(
                 self,
                 "Внимание!",
-                "Для выбора точек введите/загрузите лабиринт."
+                "Для выбора точек введите/загрузите лабиринт.",
             )
 
     @QtCore.pyqtSlot()
@@ -223,7 +222,7 @@ class MainWindow(QtWidgets.QMainWindow):
                     self.ui.img.size().width(),
                     self.ui.img.size().height(),
                     QtCore.Qt.KeepAspectRatio,
-                )
+                ),
             )
             self.ui.img.setScaledContents(True)
         else:

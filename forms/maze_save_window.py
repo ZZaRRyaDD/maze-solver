@@ -11,7 +11,7 @@
 from PyQt5 import QtCore, QtWidgets
 
 
-class Ui_Dialog(object):
+class Ui_DialogSave(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(193, 115)

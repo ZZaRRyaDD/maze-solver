@@ -1,7 +1,7 @@
 """Модуль с диалоговым окном для сохранения лабиринта."""
 from PyQt5 import QtCore, QtWidgets
 
-from forms.maze_save_window import Ui_Dialog  # pylint: disable=import-error
+from forms import Ui_DialogSave
 
 
 class SaveWindow(QtWidgets.QDialog):
@@ -11,7 +11,7 @@ class SaveWindow(QtWidgets.QDialog):
 
     def __init__(self) -> None:
         super().__init__()
-        self.ui = Ui_Dialog()
+        self.ui = Ui_DialogSave()
         self.ui.setupUi(self)
         self.setFixedSize(195, 120)
 
