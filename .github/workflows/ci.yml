@@ -29,7 +29,6 @@ jobs:
 
   pytest:
     runs-on: ubuntu-latest
-
     steps:
 
       - name: Checkout Code Repository
