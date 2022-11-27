@@ -6,15 +6,13 @@ authors = ["ZZaRRyaDD <odddellarobea@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-pylint-quotes = "^0.2.3"
 PyQt5 = "^5.15.4"
-pyqt-tools = "^1.0.0"
-pyqt5ac = "^1.2.1"
-pylint = "^2.11.1"
-pytest-mock = "^3.7.0"
+Pillow = "^9.3.0"
 
 [tool.poetry.dev-dependencies]
-autopep8 = "^1.6.0"
+flake8 = "^6.0.0"
+isort = "5.10.1"
+pytest-mock = "3.7.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

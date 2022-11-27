@@ -1,11 +1,14 @@
 """Модуль главного окна."""
 from math import floor
-from PyQt5 import QtWidgets, QtCore, QtGui
+
 from PIL import Image
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+from constants import Colors, Modes
 from forms.maze_generator_window import Ui_MazeGenerator
-from settings_window import SettingWindow
-from save_window import SaveWindow
 from maze import Maze
+from save_window import SaveWindow
+from settings_window import SettingWindow
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -18,7 +21,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.getPointsClicked.connect(self.get_points)
         self.__maze = None
         self.__clicked_x, self.__clicked_y = 0, 0
-        self.__mode = "No choice"
+        self.__mode = Modes.MODE_NO_CHOICE
         self.ui.generate_maze.setToolTip("Генерация лабиринта")
         self.ui.save_maze.setToolTip("Сохранение лабиринта")
         self.ui.load_maze.setToolTip("Загрузка лабиринта")
@@ -30,9 +33,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def on_generate_maze_clicked(self) -> None:
         """Слот при нажатии на кнопку генерации."""
         settings = SettingWindow()
-        settings.saveClicked.connect(
-            self.generate_maze,
-        )
+        settings.saveClicked.connect(self.generate_maze)
         settings.show()
         settings.exec_()
 
@@ -48,8 +49,9 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ui.img.clear()
             self.__maze = Maze(width=width, height=height)
             self.__maze.save(img_name, extension)
-            self.__maze.path = f"{img_name}.{extension}"
-            image = QtGui.QImage(f"{img_name}.{extension}")
+            path = f"{img_name}.{extension}"
+            self.__maze.path = path
+            image = QtGui.QImage(path)
             pixmap = QtGui.QPixmap.fromImage(image)
             self.ui.img.setPixmap(
                 pixmap.scaled(
@@ -70,9 +72,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def on_save_maze_clicked(self) -> None:
         """Слот при нажатии на кнопку сохранения."""
         save = SaveWindow()
-        save.saveClicked.connect(
-            self.save_maze,
-        )
+        save.saveClicked.connect(self.save_maze)
         save.show()
         save.exec_()
 
@@ -100,10 +100,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.__maze = Maze(path=file_path)
             name = file_path[file_path.rindex("/") + 1:file_path.index(".")]
             extension = "png" if file_path.endswith(".txt") else "txt"
-            self.__maze.save(
-                name,
-                extension.upper(),
-            )
+            self.__maze.save(name, extension.upper())
             self.ui.img.clear()
             img = file_path if extension == "txt" else f"{name}.{extension}"
             self.__maze.path = img
@@ -131,59 +128,69 @@ class MainWindow(QtWidgets.QMainWindow):
             self.__clicked_x = floor(position[0]/(size[0]/width))
             self.__clicked_y = floor(position[1]/(size[1]/height))
             print(
-                f"Отслеженная x: {self.__clicked_x}, отслеженная y {self.__clicked_y}")
-            if self.__mode == "Choice":
+                f"Отслеженная x: {self.__clicked_x}, "
+                f"отслеженная y {self.__clicked_y}"
+            )
+            if self.__mode == Modes.MODE_CHOICE:
                 pixels = image.load()
-                if self.__clicked_x <= width:
-                    if self.__clicked_y <= height:
-                        if pixels[self.__clicked_x, self.__clicked_y] == (0, 0, 0):
-                            QtWidgets.QMessageBox.warning(
-                                self,
-                                "Внимание!",
-                                "Выбранная точка является стеной."
-                            )
-                        elif pixels[self.__clicked_x, self.__clicked_y] == (255, 255, 255):
-                            if not self.__maze.start_point:
-                                self.__maze.start_point = [
-                                    self.__clicked_x, self.__clicked_y]
-                            elif not self.__maze.end_point:
-                                self.__maze.end_point = [
-                                    self.__clicked_x, self.__clicked_y]
-                                self.__mode = "No choice"
-                                QtWidgets.QMessageBox.information(
-                                    self,
-                                    "Выбранные точки!",
-                                    (f"Выбраны точки: {self.__maze.start_point}"
-                                        f" и {self.__maze.end_point}. "
-                                        "Для начала решения лабиринта нажмите сооветствующую кнопку."
-                                     )
-                                )
-                    else:
+                if self.__clicked_x <= width and self.__clicked_y <= height:
+                    # if self.__clicked_y <= height:
+                    point = pixels[self.__clicked_x, self.__clicked_y]
+                    if point == Colors.BLACK_COLOR:
                         QtWidgets.QMessageBox.warning(
                             self,
                             "Внимание!",
-                            "Точка по координате y не верна."
+                            "Выбранная точка является стеной."
                         )
+                    elif point == Colors.WHITE_COLOR:
+                        if not self.__maze.start_point:
+                            self.__maze.start_point = [
+                                self.__clicked_x,
+                                self.__clicked_y,
+                            ]
+                        elif not self.__maze.end_point:
+                            self.__maze.end_point = [
+                                self.__clicked_x,
+                                self.__clicked_y,
+                            ]
+                            self.__mode = Modes.MODE_NO_CHOICE
+                            QtWidgets.QMessageBox.information(
+                                self,
+                                "Выбранные точки!",
+                                (
+                                    f"Выбраны точки: {self.__maze.start_point}"
+                                    f" и {self.__maze.end_point}. "
+                                    "Для начала решения лабиринта "
+                                    "нажмите сооветствующую кнопку."
+                                )
+                            )
+                else:
+                    QtWidgets.QMessageBox.warning(
+                        self,
+                        "Внимание!",
+                        "Точка по координате y не верна."
+                    )
 
     @QtCore.pyqtSlot()
     def on_set_coordinate_clicked(self) -> None:
         """Метод запуска выбора координат."""
         if self.__maze:
             if not self.__maze.list_way:
-                if self.__mode == "No choice":
-                    self.__clicked_x = 0
-                    self.__clicked_y = 0
+                if self.__mode == Modes.MODE_NO_CHOICE:
+                    self.__clicked_x, self.__clicked_y = 0, 0
                     self.__maze.start_point = []
                     self.__maze.end_point = []
                     QtWidgets.QMessageBox.information(
                         self,
                         "Выбор точки",
-                        ("Сейчас включается режим выбора точки. "
-                            "Кликните по двум точкам, чтобы задать старт и конец "
+                        (
+                            "Сейчас включается режим выбора точки. "
+                            "Кликните по двум точкам, "
+                            "чтобы задать старт и конец "
                             "лабаринта соответственно"
                          )
                     )
-                    self.__mode = "Choice"
+                    self.__mode = Modes.MODE_CHOICE
             else:
                 QtWidgets.QMessageBox.warning(
                     self,
@@ -202,10 +209,11 @@ class MainWindow(QtWidgets.QMainWindow):
         """Метод запуска решения лабиринта."""
         if self.__maze:
             self.__maze.solve_maze()
-            new_path = (self.__maze.path[:self.__maze.path.index(".")] +
-                        "_solve" +
-                        self.__maze.path[self.__maze.path.index("."):]
-                        )
+            new_path = (
+                self.__maze.path[:self.__maze.path.index(".")] +
+                "_solve" +
+                self.__maze.path[self.__maze.path.index("."):]
+            )
             self.ui.img.clear()
             self.__maze.create_image(new_path)
             image_load = QtGui.QImage(new_path)
@@ -237,15 +245,17 @@ class MainWindow(QtWidgets.QMainWindow):
                 )
             else:
                 gif_name = (
-                    self.__maze.path[:self.__maze.path.index(
-                        ".")] + "_solve.gif"
+                    self.__maze.path[:self.__maze.path.index(".")] +
+                    "_solve.gif"
                 )
                 gif_name_before = (
-                    self.__maze.path[:self.__maze.path.index(
-                        ".")] + "_solve_for_gif.png"
+                    self.__maze.path[:self.__maze.path.index(".")] +
+                    "_solve_for_gif.png"
                 )
                 self.__maze.save(
-                    gif_name_before[:gif_name_before.index(".")], "PNG")
+                    gif_name_before[:gif_name_before.index(".")],
+                    "PNG",
+                )
                 self.__maze.create_gif(gif_name_before)
                 self.__maze.gif[0].save(
                     gif_name,

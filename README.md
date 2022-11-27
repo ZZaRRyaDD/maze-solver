@@ -1,51 +1,49 @@
 # maze-solver
 
-**Program with UI for generate maze by Eiller's Algorithm and solve them by Depth-first search**
+**Программа с графическим интерфейсом для генерации лабиринта Алгоритмом Эллера и решения его путем поиска в глубину**
 
-### Install
+### Установка
 
-**For install you should install [poetry](https://python-poetry.org/) and install dependencies**
+**Для установки вам потребуется [poetry](https://python-poetry.org/) and install dependencies**
 
 ```bash
 poetry install
 ```
 
-**After that created virtual enviment and use program**
-
-**Start programm with**
+**После этого создать виртуальное окружение и запустить программу**
 
 ```bash
 python __main__.py
 ```
 
-**You can choose six actions:**
-1. Generate maze
-2. Save maze
-3. Load maze
-4. Choose coordinate of start and end
-5. Solve maze
-6. Generate gif
+**Вы можете выбрать шесть действий**
+1. Генерация лабиринта
+2. Сохранение лабиринта
+3. Загрузка лабиринта
+4. Выбор координат начала и конца
+5. Решение лабиринта
+6. Генерация gif с решением лабиринта
 
-### 1. Generate maze
+### 1. Генерация лабиринта
 
-**You should input width, height, name, extension (extension of image or TXT) of maze. After that you can see image of maze on display.**
+**Вы должны ввести ширину, высоту, название, расширение (расширение изображения или TXT) лабиринта. После этого вы можете увидеть изображение лабиринта на дисплее.**
 
-### 2. Save maze
+### 2. Сохранение лабиринт
 
-**You should input name and choose extension (JPG/PNG/TXT) of maze. After that you can see image in root directory of project.**
+**Вам необходимо ввести название и выбрать расширение (JPG/PNG/TXT) лабиринта. После этого вы можете увидеть изображение в корневом каталоге проекта.**
 
-### 3. Load maze
+### 3. Загрузка лабиринта
 
-**You should choose file (image file or TXT). After that you can see image of maze on display.**
+**Вы должны выбрать файл (файл изображения или TXT). После этого вы можете увидеть изображение лабиринта на дисплее.**
 
-### 4. Choose coordinate of start and end
+### 4. Выбор координат начала и конца
 
-**You should choose two point on maze image, and after that choose 'Solve maze' button.**
+**Вы должны выбрать две точки на изображении лабиринта, а затем нажать кнопку «Решить лабиринт».**
 
-### 5. Solve maze
+### 5. Решение лабиринта
 
-**Solve current maze.**
+**Решение текущего лабиринта и отображение пути на дисплее.**
 
-### 6. Generate gif
+### 6. Генерация gif с решением лабиринта
 
-**Generate gif of solve maze.**
+**Генерация gif решения лабиринта.**

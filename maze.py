@@ -1,8 +1,11 @@
 """Модуль с лабиринтом."""
-import random
 import os
+import random
 from typing import Optional
+
 from PIL import Image
+
+from constants import Colors
 from stack import Stack
 
 WAY = "1"
@@ -92,9 +95,9 @@ class Maze:  # pylint: disable=too-many-instance-attributes
                 for index1 in range(width):
                     row = []
                     for index2 in range(height):
-                        if pixels[index1, index2] == (255, 255, 255):
+                        if pixels[index1, index2] == Colors.WHITE_COLOR:
                             row.append(WAY)
-                        elif pixels[index1, index2] == (0, 0, 0):
+                        elif pixels[index1, index2] == Colors.BLACK_COLOR:
                             row.append(WALL)
                         else:
                             raise ValueError(
@@ -171,10 +174,9 @@ class Maze:  # pylint: disable=too-many-instance-attributes
                             i != output_height - 1,
                         ],
                     )
-                    if any([first_cond, second_cond]):
-                        row.append(WAY)
-                    else:
-                        row.append(WALL)
+                    row.append(
+                        WAY if any([first_cond, second_cond]) else WALL
+                    )
             list_maze.append(row)
         return list_maze
 
@@ -239,9 +241,10 @@ class Maze:  # pylint: disable=too-many-instance-attributes
             for j in range(width):
                 count_hole = 0
                 for index in range(width):
-                    if (row_set[index] == row_set[j]
-                            and list_maze[i * 2 + 2][index * 2 + 1] == WAY
-                        ):
+                    if (
+                        row_set[index] == row_set[j] and
+                        list_maze[i * 2 + 2][index * 2 + 1] == WAY
+                    ):
                         count_hole += 1
                 if not count_hole:
                     list_maze[i * 2 + 2][j * 2 + 1] = WAY
@@ -281,9 +284,9 @@ class Maze:  # pylint: disable=too-many-instance-attributes
                 for index1, _ in enumerate(self.__list_maze):
                     for index2, _ in enumerate(self.__list_maze[index1]):
                         if self.__list_maze[index1][index2] == WAY:
-                            pixels[index1, index2] = (255, 255, 255)
+                            pixels[index1, index2] = Colors.WHITE_COLOR
                         else:
-                            pixels[index1, index2] = (0, 0, 0)
+                            pixels[index1, index2] = Colors.BLACK_COLOR
                 image.save(name)
         elif extension == "TXT":
             with open(name, "w", encoding="utf-8") as ptr:
@@ -308,28 +311,32 @@ class Maze:  # pylint: disable=too-many-instance-attributes
         ways = []
         if point != self.__start_point:
             self.__way_points.push(point)
-        if (self.__list_maze[point[0] + 1][point[1]] != WALL
-                and [point[0] + 1, point[1]] not in self.__way_points
-                and [point[0] + 1, point[1]] not in self.__use_points
-            ):
+        if (
+            self.__list_maze[point[0] + 1][point[1]] != WALL
+            and [point[0] + 1, point[1]] not in self.__way_points
+            and [point[0] + 1, point[1]] not in self.__use_points
+        ):
             ways.append([point[0] + 1, point[1]])
 
-        if (self.__list_maze[point[0]][point[1] + 1] != WALL
-                and [point[0], point[1] + 1] not in self.__way_points
-                and [point[0], point[1] + 1] not in self.__use_points
-            ):
+        if (
+            self.__list_maze[point[0]][point[1] + 1] != WALL
+            and [point[0], point[1] + 1] not in self.__way_points
+            and [point[0], point[1] + 1] not in self.__use_points
+        ):
             ways.append([point[0], point[1] + 1])
 
-        if (self.__list_maze[point[0] - 1][point[1]] != WALL
-                and [point[0] - 1, point[1]] not in self.__way_points
-                and [point[0] - 1, point[1]] not in self.__use_points
-            ):
+        if (
+            self.__list_maze[point[0] - 1][point[1]] != WALL
+            and [point[0] - 1, point[1]] not in self.__way_points
+            and [point[0] - 1, point[1]] not in self.__use_points
+        ):
             ways.append([point[0] - 1, point[1]])
 
-        if (self.__list_maze[point[0]][point[1] - 1] != WALL
-                and [point[0], point[1] - 1] not in self.__way_points
-                and [point[0], point[1] - 1] not in self.__use_points
-            ):
+        if (
+            self.__list_maze[point[0]][point[1] - 1] != WALL
+            and [point[0], point[1] - 1] not in self.__way_points
+            and [point[0], point[1] - 1] not in self.__use_points
+        ):
             ways.append([point[0], point[1] - 1])
 
         if ways:
@@ -362,13 +369,13 @@ class Maze:  # pylint: disable=too-many-instance-attributes
                 for index2, _ in enumerate(self.__list_maze[index1]):
                     if self.__list_maze[index1][index2] == WAY:
                         if [index1, index2] in self.__use_points:
-                            pixels[index1, index2] = (0, 0, 255)
+                            pixels[index1, index2] = Colors.BLUE_COLOR
                         elif [index1, index2] in self.__way_points:
-                            pixels[index1, index2] = (255, 0, 0)
+                            pixels[index1, index2] = Colors.RED_COLOR
                         else:
-                            pixels[index1, index2] = (255, 255, 255)
+                            pixels[index1, index2] = Colors.WHITE_COLOR
                     else:
-                        pixels[index1, index2] = (0, 0, 0)
+                        pixels[index1, index2] = Colors.BLACK_COLOR
             image.save(path)
 
     def create_gif(self, path: str) -> None:
@@ -377,9 +384,9 @@ class Maze:  # pylint: disable=too-many-instance-attributes
             image = Image.open(path)
             pixels = image.load()
             if item in self.__way_points:
-                pixels[item[0], item[1]] = (255, 0, 0)
+                pixels[item[0], item[1]] = Colors.RED_COLOR
             elif item in self.__use_points:
-                pixels[item[0], item[1]] = (0, 0, 255)
+                pixels[item[0], item[1]] = Colors.BLUE_COLOR
             self.__gif.append(image)
             image.save(path)
         os.remove(path)

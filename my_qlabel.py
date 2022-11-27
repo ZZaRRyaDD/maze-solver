@@ -1,5 +1,5 @@
 """Модуль с некоторыми переопределенными методами QLabel."""
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtCore, QtWidgets
 
 
 class MyQLabel(QtWidgets.QLabel):
@@ -26,4 +26,3 @@ class MyQLabel(QtWidgets.QLabel):
                     ],
                 )
             )
-            

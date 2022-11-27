@@ -1,5 +1,6 @@
 """Модуль с диалоговым окном для ввода данных лабиринта."""
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtCore, QtWidgets
+
 from forms.maze_settings_window import Ui_Dialog  # pylint: disable=import-error
 
 

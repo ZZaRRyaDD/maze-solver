@@ -1,6 +1,7 @@
 """Тесты для модуля maze"""
 import pytest
 from pytest_mock import MockerFixture
+
 from maze import Maze
 
 
