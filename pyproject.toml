@@ -5,9 +5,9 @@ description = ""
 authors = ["ZZaRRyaDD <odddellarobea@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
-PyQt5 = "^5.15.4"
-Pillow = "^9.3.0"
+python = "^3.10"
+PyQt5 = "5.15.4"
+Pillow = "9.3.0"
 
 flake8 = {version = "6.0.0", optional = true}
 flake8-isort = {version = "5.0.3", optional = true}
