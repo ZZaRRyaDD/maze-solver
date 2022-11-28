@@ -1,5 +1,5 @@
 """Модуль со стеком."""
-from typing import Any, Optional
+from typing import Any, Optional, Union
 
 
 class Stack:
@@ -30,7 +30,7 @@ class Stack:
         """Возвращает размер стека."""
         return len(self.__items)
 
-    def __eq__(self, other: "Stack" | Any) -> bool:
+    def __eq__(self, other: Union["Stack", Any]) -> bool:
         """Метод для сравнения двух объектов одного класса."""
         if not isinstance(other, Stack):
             return False
