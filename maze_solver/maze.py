@@ -3,9 +3,8 @@ import os
 import random
 from typing import Optional
 
-from PIL import Image
-
 from constants import Colors, Objects
+from PIL import Image
 from point import Point
 from stack import Stack
 
@@ -273,7 +272,7 @@ class Maze:
 
     def save(self, name: str, extension: str) -> None:
         """Переводит лабиринт в изображение."""
-        name = f"../mazes/{name}.{extension}"
+        name = f"./mazes/{name}.{extension}"
         if extension == "png":
             height, width = len(self.__list_maze), len(self.__list_maze[0])
             with Image.new("RGB", (height, width)) as image:

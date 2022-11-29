@@ -48,7 +48,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ui.img.clear()
             self.__maze = Maze(width=width, height=height)
             self.__maze.save(img_name, "png")
-            path = f"../mazes/{img_name}.png"
+            path = f"./mazes/{img_name}.png"
             self.__maze.path = path
             image = QtGui.QImage(path)
             pixmap = QtGui.QPixmap.fromImage(image)
@@ -98,11 +98,15 @@ class MainWindow(QtWidgets.QMainWindow):
         try:
             self.__maze = Maze(path=file_path)
             name = file_path[file_path.rindex("/") + 1:file_path.index(".")]
-            extension = "png" if file_path.endswith(".txt") else "txt"
+            extension = (
+                "png"
+                if file_path.endswith(".txt")
+                else file_path[file_path.rindex(".") + 1:]
+            )
             self.__maze.save(name, extension)
             self.ui.img.clear()
             img = file_path if extension == "txt" else f"/{name}.{extension}"
-            self.__maze.path = f"../mazes/{img[img.rindex('/') + 1:]}"
+            self.__maze.path = f"./mazes/{img[img.rindex('/') + 1:]}"
             image_load = QtGui.QImage(self.__maze.path)
             pixmap_load = QtGui.QPixmap.fromImage(image_load)
             self.ui.img.setPixmap(
@@ -251,7 +255,7 @@ class MainWindow(QtWidgets.QMainWindow):
                     "_solve_for_gif.png"
                 )
                 self.__maze.save(
-                    gif_name_before[:gif_name_before.rfind(".")],
+                    gif_name_before[gif_name_before.rfind("/") + 1:gif_name_before.rfind(".")],
                     "png",
                 )
                 self.__maze.create_gif(gif_name_before)
