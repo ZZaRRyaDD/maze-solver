@@ -13,7 +13,7 @@ poetry install
 **После этого запустить виртуальное окружение и запустить программу**
 
 ```bash
-python maze_solver
+python -m maze_solver
 ```
 
 **Вы можете выбрать шесть действий**
@@ -50,9 +50,8 @@ python maze_solver
 
 **Примеры работы программы**
 
-![Сгенерированный лабиринт](mazes/maze.png)
+![Сгенерированный лабиринт](mazes/maze_example.png)
 
-![Решенный лабиринт](mazes/maze_solve.png)
+![Решенный лабиринт](mazes/maze_solve_example.png)
 
-![Решение лабиринта с заданными в ручную точками](mazes/maze_solve.gif)
-
+![Решение лабиринта с заданными в ручную точками](mazes/maze_solve_example.gif)

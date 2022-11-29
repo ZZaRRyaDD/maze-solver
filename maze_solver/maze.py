@@ -3,10 +3,11 @@ import os
 import random
 from typing import Optional
 
-from constants import Colors, Objects
 from PIL import Image
-from point import Point
-from stack import Stack
+
+from .constants import Colors, Objects
+from .point import Point
+from .stack import Stack
 
 
 class Maze:

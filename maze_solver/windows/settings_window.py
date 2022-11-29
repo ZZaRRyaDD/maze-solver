@@ -1,6 +1,7 @@
 """Модуль с диалоговым окном для ввода данных лабиринта."""
-from forms import Ui_DialogSetting
 from PyQt5 import QtCore, QtWidgets
+
+from ..forms import Ui_DialogSetting
 
 
 class SettingWindow(QtWidgets.QDialog):

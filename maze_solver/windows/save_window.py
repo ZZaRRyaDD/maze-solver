@@ -1,6 +1,7 @@
 """Модуль с диалоговым окном для сохранения лабиринта."""
-from forms import Ui_DialogSave
 from PyQt5 import QtCore, QtWidgets
+
+from ..forms import Ui_DialogSave
 
 
 class SaveWindow(QtWidgets.QDialog):

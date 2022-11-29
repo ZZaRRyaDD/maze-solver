@@ -9,8 +9,8 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from widgets.my_qlabel import MyQLabel
 
+from ..widgets.my_qlabel import MyQLabel
 from . import resource
 
 

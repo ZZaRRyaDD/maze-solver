@@ -1,12 +1,12 @@
 """Модуль главного окна."""
 from math import floor
 
-from constants import Colors, Modes
-from forms import Ui_MazeGenerator
-from maze import Maze, Point
 from PIL import Image
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from ..constants import Colors, Modes
+from ..forms import Ui_MazeGenerator
+from ..maze import Maze, Point
 from .save_window import SaveWindow
 from .settings_window import SettingWindow
 
