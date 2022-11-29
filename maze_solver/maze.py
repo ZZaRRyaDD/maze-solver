@@ -5,9 +5,9 @@ from typing import Optional
 
 from PIL import Image
 
-from maze_solver.constants import Colors, Objects
-from maze_solver.point import Point
-from maze_solver.stack import Stack
+from constants import Colors, Objects
+from point import Point
+from stack import Stack
 
 
 class Maze:
